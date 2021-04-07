@@ -27,8 +27,6 @@
     "@shopify/jest-koa-mocks": "^2.3.2",
     "koa": "^2.13.1",
     "koa-bodyparser": "^4.3.0",
-    "lodash": "^4.17.21",
-    "mongoose": "^5.12.0",
     "serverless-http": "^2.7.0",
     "typescript": "^4.2.2"
   },
