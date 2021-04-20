@@ -1,19 +1,19 @@
-import serverless from 'serverless-http'
-import Koa from 'koa'
-import cors from '@koa/cors'
-import bodyParser from 'koa-bodyparser'
+import { ApolloServer } from 'apollo-server-lambda'
 
-import v1routes from './controllers/v1/routes'
+import typeDefs from './schema'
+import resolvers from './resolvers/resolvers'
 
-const app = new Koa()
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
 
-app.use(cors())
-app.use(bodyParser())
+  // By default, the GraphQL Playground interface and GraphQL introspection
+  // is disabled in "production" (i.e. when `process.env.NODE_ENV` is `production`).
+  //
+  // If you'd like to have GraphQL Playground and introspection enabled in production,
+  // the `playground` and `introspection` options must be set explicitly to `true`.
+  playground: true,
+  introspection: true,
+})
 
-app.use(v1routes.routes())
-
-if (process.env.IS_OFFLINE === 'true') {
-  app.use(v1routes.allowedMethods())
-}
-
-module.exports.handler = serverless(app)
+exports.graphqlHandler = server.createHandler()

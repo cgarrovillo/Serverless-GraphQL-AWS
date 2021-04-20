@@ -25,6 +25,7 @@ provider:
           NotIpAddress:
             aws:SourceIp:
               # Home IP
+              - 0.0.0.0
       - Effect: Allow
         Principal: '*'
         Action: execute-api:Invoke
@@ -43,12 +44,10 @@ custom:
     httpPort: 3001
 
 functions:
-  app:
-    handler: build/index.handler
+  graphql:
+    handler: build/index.graphqlHandler
     events:
       - http:
-          path: /
-          method: ANY
-      - http:
-          path: /{proxy+}
-          method: ANY
+          path: graphql
+          method: POST
+          cors: true
